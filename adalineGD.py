@@ -59,7 +59,7 @@ class AdalineGD:
                  errors =(y- output) # label - firs net input calculate and so on for each label with the subseqent net input calculated
                  print(f'errors = {errors}')
                  print(f'weights before = {self.w_}')
-                 self.w_ += self.eta * 2.0 * X.T.dot(errors) / X.shape[0]  # 
+                 self.w_ += self.calculateUpdateWeights(self.eta, errors, X)  # 
                  print(f'weights after = {self.w_}')
                  print(f'weights before = {self.b_}')
                  self.b_ += self.eta * 2.0 * errors.mean()
@@ -90,4 +90,33 @@ class AdalineGD:
     #   self.w_[w_j] += self.eta * (2.0 * (X[:, w_j]*errors)).mean()
 
 
-    
+    def calculateUpdateWeights(self, eta, errors, X):
+        # Step 1: Initialize updates array with zeros
+        n_features = X.shape[1]  # Number of features
+        print(f'Number of features : {n_features}')
+        n_samples = X.shape[0]   # Number of examples
+        print(f'Number of samples : {n_samples}')
+        weight_updates = [0.0] * n_features  # Start with zeros for all weights
+        print(f'Weight BEFORE updates : {weight_updates}')
+        # Step 2: Loop through each feature
+        for feature_idx in range(n_features):  # For each feature (column in X)
+            # Compute the contribution of each sample to this feature's update
+            feature_error_sum = 0.0  # Initialize accumulator for this feature
+            for sample_idx in range(n_samples):  # For each sample (row in X)
+                print(f'Feature index : {feature_idx}')
+                print(f'Sample index : {sample_idx}')
+                feature_value = X[sample_idx][feature_idx]  # Value of this feature for the sample
+                print(f'Feature value  X[{sample_idx}][{feature_idx}]: {feature_value}')
+                error = errors[sample_idx]  # Corresponding error for the sample
+                feature_error_sum += feature_value * error  # Add to feature's contribution
+            
+            # Average the contribution over all samples
+            feature_error_mean = feature_error_sum / n_samples  # Mean of feature's error contributions
+            
+            # Compute the final scaled update for this weight
+            weight_updates[feature_idx] = eta * 2.0 * feature_error_mean  # Apply scaling factors
+        
+        # Return the weight updates as a list
+        print(f'Weight AFTER updates : {weight_updates}')
+
+        return weight_updates
