@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
-from adalineGD import AdalineGD 
+from adalineSqError import AdalineGD 
 from matplotlib.colors import ListedColormap
 
 
@@ -24,24 +24,42 @@ X = np.array([
 # Labels (y)
 y = np.array([1, 0, 1, 0, 1, 1, 0, 1, 0, 1])  # 1 = Regular, 0 = Not Regular
 
-fig, ax = plt.subplots(nrows = 1, ncols = 2, figsize=(10, 4))
-ada1 = AdalineGD(n_iter=3, eta=0.1).fit(X,y)
-wBef1 = ada1.w_
+fig, ax = plt.subplots(nrows = 1, ncols = 5, figsize=(16, 4))
+ada1 = AdalineGD(n_iter=15, eta=0.1).fit(X,y)
 ax[0].plot(range(1, len(ada1.losses_) + 1), np.log10(ada1.losses_), marker='o')
 ax[0].set_xlabel('Epochs')
 ax[0].set_ylabel('log(Mean squared error)')
-ada2 = AdalineGD(n_iter=3, eta=0.0001).fit(X, y)
-wBef2 = ada2.w_
+ax[0].set_title('Adaline - Learning rate 0.1')
 
-ax[1].plot(range(1, len(ada2.losses_) +1), ada2.losses_, marker='o')
+
+ada2 = AdalineGD(n_iter=15, eta=0.01).fit(X,y)
+ax[1].plot(range(1, len(ada2.losses_) + 1), np.log10(ada2.losses_), marker='o')
 ax[1].set_xlabel('Epochs')
-ax[1].set_ylabel('Mean squared error')
-ax[1].set_title('Adaline - Learning rate 0.0001')
+ax[1].set_ylabel('log(Mean squared error)')
+ax[1].set_title('Adaline - Learning rate 0.01')
+
+ada3 = AdalineGD(n_iter=15, eta=0.001).fit(X,y)
+ax[2].plot(range(1, len(ada3.losses_) + 1), np.log10(ada3.losses_), marker='o')
+ax[2].set_xlabel('Epochs')
+ax[2].set_ylabel('log(Mean squared error)')
+ax[2].set_title('Adaline - Learning rate 0.001')
+
+ada4 = AdalineGD(n_iter=15, eta=0.0001).fit(X,y)
+ax[3].plot(range(1, len(ada4.losses_) + 1), np.log10(ada4.losses_), marker='o')
+ax[3].set_xlabel('Epochs')
+ax[3].set_ylabel('log(Mean squared error)')
+ax[3].set_title('Adaline - Learning rate 0.0001')
+ 
+ada5 = AdalineGD(n_iter=95, eta=0.0108).fit(X,y)
+ax[4].plot(range(1, len(ada5.losses_) + 1), np.log10(ada5.losses_), marker='o')
+ax[4].set_xlabel('Epochs')
+ax[4].set_ylabel('log(Mean squared error)')
+ax[4].set_title('Adaline - Learning rate 0.0108')
+# Adjust layout for better spacing
+plt.tight_layout()
+
 plt.show()
-print(f' Weights f 1 before adg {wBef1}')
-print(f' Weights f 1 after adg {ada1.w_}')
-print(f' Weights f 2 before adg {wBef2}')
-print(f' Weights f 2 after adg {ada1.w_}')
+
 
 
 
