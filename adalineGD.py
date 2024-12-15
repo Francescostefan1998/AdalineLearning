@@ -89,7 +89,6 @@ class AdalineGD:
     # for w_j in range(self.w_.shape[0]):
     #   self.w_[w_j] += self.eta * (2.0 * (X[:, w_j]*errors)).mean()
 
-
     def calculateUpdateWeights(self, eta, errors, X):
         # Step 1: Initialize updates array with zeros
         n_features = X.shape[1]  # Number of features
@@ -108,13 +107,16 @@ class AdalineGD:
                 feature_value = X[sample_idx][feature_idx]  # Value of this feature for the sample
                 print(f'Feature value  X[{sample_idx}][{feature_idx}]: {feature_value}')
                 error = errors[sample_idx]  # Corresponding error for the sample
+                print(f'Error at the sampe index of {sample_idx} : {error}')
                 feature_error_sum += feature_value * error  # Add to feature's contribution
+                print(f'Error sum {feature_value} * {error} = {feature_error_sum}' )
             
             # Average the contribution over all samples
             feature_error_mean = feature_error_sum / n_samples  # Mean of feature's error contributions
-            
+            print(f'Feature error mean (average) = {feature_error_sum}/{n_samples} = {feature_error_mean}')
             # Compute the final scaled update for this weight
             weight_updates[feature_idx] = eta * 2.0 * feature_error_mean  # Apply scaling factors
+            print(f'Weight update at {feature_idx} = {eta} * 2 * {feature_error_mean} = {weight_updates} at [{feature_idx}]')
         
         # Return the weight updates as a list
         print(f'Weight AFTER updates : {weight_updates}')

@@ -26,13 +26,22 @@ y = np.array([1, 0, 1, 0, 1, 1, 0, 1, 0, 1])  # 1 = Regular, 0 = Not Regular
 
 fig, ax = plt.subplots(nrows = 1, ncols = 2, figsize=(10, 4))
 ada1 = AdalineGD(n_iter=3, eta=0.1).fit(X,y)
+wBef1 = ada1.w_
 ax[0].plot(range(1, len(ada1.losses_) + 1), np.log10(ada1.losses_), marker='o')
 ax[0].set_xlabel('Epochs')
 ax[0].set_ylabel('log(Mean squared error)')
 ada2 = AdalineGD(n_iter=3, eta=0.0001).fit(X, y)
+wBef2 = ada2.w_
+
 ax[1].plot(range(1, len(ada2.losses_) +1), ada2.losses_, marker='o')
 ax[1].set_xlabel('Epochs')
 ax[1].set_ylabel('Mean squared error')
 ax[1].set_title('Adaline - Learning rate 0.0001')
 plt.show()
+print(f' Weights f 1 before adg {wBef1}')
+print(f' Weights f 1 after adg {ada1.w_}')
+print(f' Weights f 2 before adg {wBef2}')
+print(f' Weights f 2 after adg {ada1.w_}')
+
+
 
