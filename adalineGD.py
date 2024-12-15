@@ -56,7 +56,7 @@ class AdalineGD:
                  print(f'net_input = {net_input}')
                  output = self.activation(net_input)
                  print(f'output = {output}')
-                 errors =(y- output)
+                 errors =(y- output) # label - firs net input calculate and so on for each label with the subseqent net input calculated
                  print(f'errors = {errors}')
                  print(f'weights before = {self.w_}')
                  self.w_ += self.eta * 2.0 * X.T.dot(errors) / X.shape[0]  # 
@@ -72,7 +72,8 @@ class AdalineGD:
     
     def net_input(self, X):
              """Calculate net input"""
-             return np.dot(X, self.w_) + self.b_
+             return np.dot(X, self.w_) + self.b_ # this method returns an array one value for each row 
+                # z=(5⋅0.01624345)+(10⋅−0.00611756)+0  = 0.08121725−0.0611756=0.02004165
         
     def activation(self, X):
              """Compute linear activation"""
@@ -84,6 +85,7 @@ class AdalineGD:
     
     # note that this line we are using is the implementation of the following code 
     # self.w_ += self.eta * 2.0 * X.T.dot(errors) / X.shape[0]  # 
+    # which it should be the abbreviation for the following code
     # for w_j in range(self.w_.shape[0]):
     #   self.w_[w_j] += self.eta * (2.0 * (X[:, w_j]*errors)).mean()
 
