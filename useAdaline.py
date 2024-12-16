@@ -22,8 +22,24 @@ X = np.array([
 ])
 
 # Labels (y)
-y = np.array([1, 0, 1, 0, 1, 1, 0, 1, 0, 1])  # 1 = Regular, 0 = Not Regular
+# y = np.array([1, 0, 1, 0, 1, 1, 0, 1, 0, 1])  # 1 = Regular, 0 = Not Regular
 
+
+s = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+print ('From URL:', s)
+
+df = pd.read_csv(s, header=None, encoding='utf-8')
+# print(df.tail())
+
+#select setosa and versicolor
+y = df.iloc[0:100, 4].values # so basically here I am extracting the labels which might be Iris-setos or iris-versicolor
+
+y = np.where(y == 'Iris-setosa', 0, 1) # here is a condition if it is iris-setosa it will give a 0 otherwis 1 but I will get an array
+
+# extract sepal length and petal length
+X = df.iloc[0:100, [0, 2]].values # here is extracting just two properties from each row the first and the third [0, 2]
+print('--------------------------------------------------------------------')
+print(X)
 fig, ax = plt.subplots(nrows = 1, ncols = 5, figsize=(16, 4))
 ada1 = AdalineGD(n_iter=15, eta=0.1).fit(X,y)
 ax[0].plot(range(1, len(ada1.losses_) + 1), np.log10(ada1.losses_), marker='o')

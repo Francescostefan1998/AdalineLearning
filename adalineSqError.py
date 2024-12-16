@@ -19,9 +19,7 @@ class AdalineGD:
                  self.w_ += self.calculateUpdateWeights(self.eta, errors, X)  # 
                  self.b_ += self.eta * 2.0 * errors.mean()
                  loss = (errors**2).mean() # the .mean() calculate the average (all valuse/n of values)
-                 print(f'Loss : {loss}')
                  self.losses_.append(loss)
-                 print(f'Losses : {self.losses_}')
         return self
     
     def net_input(self, X):
