@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
-from adalineSqError import AdalineGD 
+from adalineGD import AdalineGD 
 from matplotlib.colors import ListedColormap
 
 
@@ -38,52 +38,16 @@ y = np.where(y == 'Iris-setosa', 0, 1) # here is a condition if it is iris-setos
 
 # extract sepal length and petal length
 X = df.iloc[0:100, [0, 2]].values # here is extracting just two properties from each row the first and the third [0, 2]
-print('--------------------------------------------------------------------')
-print(X)
-fig, ax = plt.subplots(nrows = 1, ncols = 5, figsize=(16, 4))
-ada1 = AdalineGD(n_iter=15, eta=0.1).fit(X,y)
-ax[0].plot(range(1, len(ada1.losses_) + 1), np.log10(ada1.losses_), marker='o')
-ax[0].set_xlabel('Epochs')
-ax[0].set_ylabel('log(Mean squared error)')
-ax[0].set_title('Adaline - Learning rate 0.1')
-
-
-ada2 = AdalineGD(n_iter=15, eta=0.01).fit(X,y)
-ax[1].plot(range(1, len(ada2.losses_) + 1), np.log10(ada2.losses_), marker='o')
-ax[1].set_xlabel('Epochs')
-ax[1].set_ylabel('log(Mean squared error)')
-ax[1].set_title('Adaline - Learning rate 0.01')
-
-ada3 = AdalineGD(n_iter=15, eta=0.001).fit(X,y)
-ax[2].plot(range(1, len(ada3.losses_) + 1), np.log10(ada3.losses_), marker='o')
-ax[2].set_xlabel('Epochs')
-ax[2].set_ylabel('log(Mean squared error)')
-ax[2].set_title('Adaline - Learning rate 0.001')
-
-ada4 = AdalineGD(n_iter=15, eta=0.0001).fit(X,y)
-ax[3].plot(range(1, len(ada4.losses_) + 1), np.log10(ada4.losses_), marker='o')
-ax[3].set_xlabel('Epochs')
-ax[3].set_ylabel('log(Mean squared error)')
-ax[3].set_title('Adaline - Learning rate 0.0001')
- 
-ada5 = AdalineGD(n_iter=95, eta=0.0108).fit(X,y)
-ax[4].plot(range(1, len(ada5.losses_) + 1), np.log10(ada5.losses_), marker='o')
-ax[4].set_xlabel('Epochs')
-ax[4].set_ylabel('log(Mean squared error)')
-ax[4].set_title('Adaline - Learning rate 0.0108')
-# Adjust layout for better spacing
-plt.tight_layout()
-
-plt.show()
 
 
 #this use the standardization to center better for each weight the learning rate
 X_std = np.copy(X)
 X_std[:, 0] = (X[:, 0] - X[:,0].mean())/X[:, 0].std()
 X_std[:, 1] = (X[:, 1] - X[:,1].mean())/X[:, 1].std()
+print(X_std[:, 0].mean(), X_std[:, 0].std())
+print(X_std[:, 1].mean(), X_std[:, 1].std())
 
-
-def plot_decision_regions(X, y, classifier, resolution = 0.02):
+def plot_decision_regions(X, y, classifier, resolution = 0.01):
     # setup marker generator and color map 
     markers = ('o', 's', '^', 'v', '<')
     colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
@@ -110,7 +74,7 @@ def plot_decision_regions(X, y, classifier, resolution = 0.02):
                     label=f'Class {cl}',
                     edgecolor='black')
         
-ada_gd = AdalineGD(n_iter = 20, eta=0.5)
+ada_gd = AdalineGD(n_iter = 20, eta=0.55)
 ada_gd.fit(X_std, y)
 plot_decision_regions(X_std, y, classifier=ada_gd)
 plt.title('Adaline - Gradient descent')
