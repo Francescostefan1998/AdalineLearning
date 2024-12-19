@@ -74,7 +74,7 @@ def plot_decision_regions(X, y, classifier, resolution = 0.01):
                     label=f'Class {cl}',
                     edgecolor='black')
         
-ada_gd = AdalineGD(n_iter = 20, eta=0.55)
+ada_gd = AdalineGD(n_iter = 20, eta=0.50)
 ada_gd.fit(X_std, y)
 plot_decision_regions(X_std, y, classifier=ada_gd)
 plt.title('Adaline - Gradient descent')
